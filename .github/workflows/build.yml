@@ -42,5 +42,3 @@ jobs:
           sleep 2
           curl -k http://localhost:8080/hello-world
           exit 0
-      - name: Check Image Is Running
-        run:
