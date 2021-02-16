@@ -7,7 +7,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v2
     - uses: actions/setup-java@v1
       with:
         java-version: 1.8
