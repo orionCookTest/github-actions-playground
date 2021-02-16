@@ -1,0 +1,45 @@
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./build
+  create-docker-image-and-run:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2.0.8
+        with:
+          name: package
+      - name: Create Docker Image
+        run: |
+          ls -al
+          docker build . --file Dockerfile --tag java-rest-api
+      - name: Run Docker Image
+        run: docker run -d --network=host --name restAPI java-rest-api
+      - name: ZAP Scan
+        run: |
+          docker pull owasp/zap2docker-stable
+          docker create --name=owasp --network="host" -t owasp/zap2docker-stable
+          docker start owasp
+          docker exec owasp mkdir /zap/wrk
+          docker exec -i owasp zap-api-scan.py -t http://localhost:8080/openapi.json -f openapi -J report.json -r report.html
+      - name: copy reports out
+        run: |
+          docker cp owasp:/zap/wrk/report.html report.html
+          docker cp owasp:/zap/wrk/report.json report.json
+      - uses: actions/upload-artifact@v2
+        with:
+          name: reports
+
