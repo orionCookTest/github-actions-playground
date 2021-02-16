@@ -37,6 +37,10 @@ jobs:
           ls -al
           docker build . --file Dockerfile --tag java-rest-api
       - name: Run Docker Image
-        run: docker run --name restAPI java-rest-api
+        run: |
+          docker run --name restAPI java-rest-api &
+          sleep 2
+          curl -k http://localhost:8080/hello-world
+          exit 0
       - name: Check Image Is Running
-        run: curl -k http://localhost:8080/hello-world
+        run:
