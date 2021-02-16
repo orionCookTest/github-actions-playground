@@ -13,6 +13,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: .github/actions/build
+      - uses: orionCook/github-actions-playground/.github/actions/build@v1
         with:
           project-name: 'github-actions-playground'
