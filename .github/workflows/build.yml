@@ -38,7 +38,7 @@ jobs:
           docker build . --file Dockerfile --tag java-rest-api
       - name: Run Docker Image
         run: |
-          docker run --name restAPI java-rest-api &
+          docker run -d --name restAPI java-rest-api
           sleep 2
           curl -k http://localhost:8080/hello-world
           exit 0
