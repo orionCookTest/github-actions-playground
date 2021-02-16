@@ -13,6 +13,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: .github/actions/build.yml
+      - uses: .github/actions/build
         with:
           project-name: 'github-actions-playground'
