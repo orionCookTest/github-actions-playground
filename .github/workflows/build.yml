@@ -29,11 +29,9 @@ jobs:
     steps:
       - name: Download Build Artifact
       - uses: actions/download-artifact@v2.0.8
-          with:
-            # Artifact name
-            name: package
-            # Destination path
-            path: ./
+        with:
+          name: package
+          path: ./
       - name: Create Docker Image
         run: docker build . --file Dockerfile --tag java-rest-api
       - name: Run Docker Image
