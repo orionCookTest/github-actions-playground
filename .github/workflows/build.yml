@@ -12,7 +12,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    uses: $GITHUB_ACTION_PATH/build.yml
+    steps:
+      - uses: $GITHUB_ACTION_PATH/build.yml
   create-docker-image-and-run:
     needs: build
     runs-on: ubuntu-latest
