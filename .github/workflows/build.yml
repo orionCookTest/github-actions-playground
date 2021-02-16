@@ -38,8 +38,16 @@ jobs:
           docker build . --file Dockerfile --tag java-rest-api
       - name: Run Docker Image
         run: docker run -d --network=host --name restAPI java-rest-api
-      - name: Test Hello World
+      - name: ZAP Scan
         run: |
-          sleep 2
-          curl -k http://localhost:8080/hello-world
-          exit 0
+          docker pull owasp/zap2docker-stable
+          docker create --name=owasp --network="host" -t owasp/zap2docker-stable
+          docker start owasp
+          docker exec owasp mkdir /zap/wrk
+          docker exec -i owasp zap-api-scan.py -t http://localhost:8080/openapi.json -f openapi -J report.json -r report.html
+          docker cp owasp:/zap/wrk/report.html report.html
+          docker cp owasp:/zap/wrk/report.json report.json
+      - uses: actions/upload-artifact@v2
+          with:
+            name: reports
+
