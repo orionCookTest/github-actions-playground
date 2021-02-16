@@ -1,4 +1,4 @@
-# github-actions-playground ![build](https://github.com/orionCook/github-actions-playground/workflows/Java%20CI%20with%20Gradle/badge.svg?branch=main)
+# github-actions-playground ![Build](https://github.com/orionCook/github-actions-playground/workflows/Build/badge.svg?branch=main&event=push)
 
 A safe place to play around with github actions.
 
