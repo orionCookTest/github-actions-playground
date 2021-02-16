@@ -25,6 +25,7 @@ jobs:
           name: package
           path: build/libs
   create-docker-image-and-run:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v2.0.8
