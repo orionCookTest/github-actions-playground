@@ -1,6 +1,7 @@
 plugins {
     id 'application'
     id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id "io.swagger.core.v3.swagger-gradle-plugin" version "2.1.4"
 }
 
 sourceCompatibility = 1.8
@@ -18,13 +19,16 @@ ext {
 }
 
 dependencies {
-    compile group: 'io.dropwizard', name: 'dropwizard-core', version: dropwizardVersion
+    implementation group: 'io.dropwizard', name: 'dropwizard-core', version: dropwizardVersion
+    testImplementation group: 'junit', name: 'junit', version: '4.11'
+    implementation (group: 'com.smoketurner', name: 'dropwizard-swagger', version: '2.0.12-1') {
+        exclude group: 'com.fasterxml.jackson.core', module: 'jackson-databind'
+    }
 
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    implementation group: 'io.swagger.core.v3', name: 'swagger-jaxrs2', version: "2.1.4"
 }
 
 shadowJar {
-//    dependsOn project(':commons').check,check,test
     dependsOn*.assemble
     mergeServiceFiles()
     zip64 true
@@ -39,4 +43,11 @@ run {
         suspend = false
     }
     args 'server'
+}
+
+resolve {
+    classpath = sourceSets.main.runtimeClasspath
+    resourcePackages = ['com.spacebug.restjava.resource']
+    outputDir = file("${project.buildDir}/api")
+    ignoredRoutes = ['/swagger', '/swagger.{type}', '/health-check', '/mock']
 }
