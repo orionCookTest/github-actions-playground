@@ -1,0 +1,42 @@
+plugins {
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+}
+
+sourceCompatibility = 1.8
+mainClassName = 'com.spacebug.restjava.RestJava'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
+}
+
+ext {
+    dropwizardVersion = '1.0.5'
+}
+
+dependencies {
+    compile group: 'io.dropwizard', name: 'dropwizard-core', version: dropwizardVersion
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+shadowJar {
+//    dependsOn project(':commons').check,check,test
+    dependsOn*.assemble
+    mergeServiceFiles()
+    zip64 true
+    getArchiveClassifier().set('')
+}
+
+run {
+    debugOptions {
+        enabled = true
+        port = 5566
+        server = true
+        suspend = false
+    }
+    args 'server'
+}
