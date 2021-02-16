@@ -1,0 +1,20 @@
+name: 'build'
+description: 'Use gradle to build and upload java artifact'
+inputs:
+  project-name:  # id of input
+    description: 'Name of the project to build'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    - run: ./gradlew build
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ${{ inputs.project-name }}
+        path: build/libs
