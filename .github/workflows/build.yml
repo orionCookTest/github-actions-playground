@@ -14,6 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: orionCook/github-actions-playground/.github/actions/build
+      - uses: orionCook/github-actions-playground/.github/actions/build@v1.0.1
         with:
           project-name: 'github-actions-playground'
