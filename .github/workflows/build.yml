@@ -48,6 +48,6 @@ jobs:
           docker cp owasp:/zap/wrk/report.html report.html
           docker cp owasp:/zap/wrk/report.json report.json
       - uses: actions/upload-artifact@v2
-          with:
-            name: reports
+        with:
+          name: reports
 
